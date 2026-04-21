@@ -62,22 +62,18 @@ task.spawn(function()
     infoText.BackgroundTransparency = 1
     infoText.Font = Enum.Font.Code
     
-    -- [[ SISTEM GANTI TEKS URUTAN BARU ]] --
+    -- [[ FIX SISTEM UPDATE TEKS ]] --
     task.spawn(function()
-        local function UpdateTeks(msg)
-            infoText.Text = "DEKATEAMHUB: " .. msg .. "\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
-        end
-
-        -- 1. Anti Banned (2 Menit)
-        UpdateTeks("BYPASSING ANTI BANNED...")
+        -- 1. Anti Banned
+        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI BANNED...\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
         task.wait(120)
         
-        -- 2. Anti Report (2 Menit)
-        UpdateTeks("BYPASSING ANTI REPORT...")
+        -- 2. Anti Report
+        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI REPORT...\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
         task.wait(120)
         
-        -- 3. Anti Detected (2 Menit)
-        UpdateTeks("BYPASSING ANTI DETECTED...")
+        -- 3. Anti Detected
+        infoText.Text = "DEKATEAMHUB: BYPASSING ANTI DETECTED...\n\nSABAR TUNGGU PROSES SELESAI!\nJANGAN KELUAR ATAU PROSES GAGAL!"
         task.wait(120)
         
         -- 4. FINAL: Anti Cheat (1 Minggu)
@@ -91,6 +87,7 @@ task.spawn(function()
         for i = 1, 1500000 do local _ = i * i end
     end)
 end)
+
 
 
 
