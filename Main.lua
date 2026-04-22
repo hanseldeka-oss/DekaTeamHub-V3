@@ -1,83 +1,70 @@
--- [[ DekaTeamHub: ABSOLUTE SOUND INJECTION ]] --
-task.spawn(function()
-    local SS = game:GetService("SoundService")
-    
-    -- 1. AUDIO BYPASS (PAKE ID YANG PASTI JALAN)
-    local function PlayExtreme()
-        local s = Instance.new("Sound")
-        -- ID INI BIASANYA STABIL (TACO ATAU DISTORTED NOISE)
-        s.SoundId = "rbxassetid://142276005" 
-        s.Volume = 10
-        s.Looped = true
-        s.Parent = SS
-        
-        -- PAKSA PLAY LEWAT LOCAL ENGINE (METODE PALING KERAS)
-        task.spawn(function()
-            while true do
-                if not s.IsPlaying then
-                    s:Play()
-                    pcall(function() SS:PlayLocalSound(s) end)
-                end
-                task.wait(0.1)
-            end
-        end)
-    end
-    
-    PlayExtreme()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-    -- 2. LOCK DOWN & VISUAL (VIDEO SYNC)
-    local PG = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    local screen = Instance.new("ScreenGui", PG)
-    screen.Name = "DekaFinalTrap"
-    screen.DisplayOrder = 2147483647
-    screen.IgnoreGuiInset = true
+local Window = Rayfield:CreateWindow({
+   Name = "Delta Executor | BRAINROT SYNC V6",
+   LoadingTitle = "DekaTeamHub - Anti-Rotation",
+   LoadingSubtitle = "By DekaTeamhub",
+   ConfigurationPath = "BrainrotConfig",
+   KeySystem = false
+})
 
-    local B = Instance.new("TextButton", screen)
-    B.Size = UDim2.new(1, 0, 1, 0)
-    B.BackgroundColor3 = Color3.new(0, 0, 0)
-    B.Modal = true
-    B.Text = ""
+local MainTab = Window:CreateTab("Inventory Dupe", 4483362458)
+local DupeSection = MainTab:CreateSection("Brainrot Dupe 1 to 2 (FIXED)")
 
-    local Bars = Instance.new("Frame", B)
-    Bars.Size = UDim2.new(1, 0, 1, 0)
-    local colors = {
-        Color3.fromRGB(191,191,191), Color3.fromRGB(191,191,0),
-        Color3.fromRGB(0,191,191), Color3.fromRGB(0,191,0),
-        Color3.fromRGB(191,0,191), Color3.fromRGB(191,0,0),
-        Color3.fromRGB(0,0,191)
-    }
-    for i, c in pairs(colors) do
-        local f = Instance.new("Frame", Bars)
-        f.Size = UDim2.new(1/#colors, 0, 1, 0)
-        f.Position = UDim2.new((i-1)/#colors, 0, 0, 0)
-        f.BackgroundColor3 = c
-        f.BorderSizePixel = 0
-    end
+MainTab:CreateButton({
+   Name = "Execute Linear Brainrot (No Spin)",
+   Callback = function()
+      local player = game.Players.LocalPlayer
+      local tool = player.Character:FindFirstChildOfClass("Tool") or player.Backpack:FindFirstChildOfClass("Tool")
+      
+      if tool then
+          -- Dupe ke Inventory
+          local clonedTool = tool:Clone()
+          clonedTool.Name = tool.Name .. " [DUPED]"
+          clonedTool.Parent = player.Backpack
+          
+          -- Logic Animasi Meliuk Tanpa Muter
+          local function ApplyLinearBrainrot(item)
+              local handle = item:FindFirstChild("Handle") or item:FindFirstChildWhichIsA("BasePart")
+              if not handle then return end
+              
+              local originalGrip = item.Grip
+              spawn(function()
+                  local t = 0
+                  while item and item.Parent do
+                      if item.Parent == player.Character then
+                          t = t + 0.2 -- Speed tinggi buat vibe brainrot
+                          
+                          -- PURE POSITION SHIFT (Gak ada rotasi/Angles sama sekali)
+                          local offsetX = math.sin(t * 12) * 1.5 -- Meliuk Kiri-Kanan
+                          local offsetY = math.cos(t * 15) * 1.8 -- Bouncing Atas-Bawah
+                          local offsetZ = math.sin(t * 10) * 0.8 -- Maju-Mundur dikit
+                          
+                          -- item.Grip cuma diubah posisinya (CFrame.new), bukan rotasinya
+                          item.Grip = originalGrip * CFrame.new(offsetX, offsetY, offsetZ)
+                      end
+                      task.wait(0.01)
+                  end
+              end)
+          end
 
-    local T = Instance.new("TextLabel", B)
-    T.Size = UDim2.new(0.8, 0, 0.4, 0)
-    T.Position = UDim2.new(0.1, 0, 0.3, 0)
-    T.BackgroundTransparency = 1
-    T.TextColor3 = Color3.new(1, 1, 1)
-    T.TextScaled = true
-    T.Font = "Code"
-    T.Text = "SABAR TUNGGU 1 JAM!\nJANGAN LEAVE ATAU BAN PERMANENT!!\n\nBYPASSING ANTI-CHEAT ROBLOX..."
+          ApplyLinearBrainrot(tool)
+          ApplyLinearBrainrot(clonedTool)
 
-    -- 3. GLITCH & LAG ENGINE
-    game:GetService("RunService").RenderStepped:Connect(function()
-        Bars.Position = UDim2.new(0, math.random(-15, 15), 0, math.random(-15, 15))
-        if math.random(1, 4) == 1 then
-            local n = Instance.new("Frame", B)
-            n.Size = UDim2.new(1, 0, 0, math.random(2, 40))
-            n.Position = UDim2.new(0, 0, math.random(0, 100)/100, 0)
-            n.BackgroundColor3 = Color3.new(1, 1, 1)
-            n.BackgroundTransparency = 0.4
-            task.delay(0.01, function() n:Destroy() end)
-        end
-        -- LAG MAUT (HP PANAS)
-        for i = 1, 3500000 do local _ = i * i end
-    end)
-end)
+          Rayfield:Notify({
+             Title = "Fixed Logic",
+             Content = "Gerakan sekarang linear meliuk tanpa muter-muter!",
+             Duration = 3,
+             Image = 4483362458,
+          })
+      else
+          Rayfield:Notify({Title = "Error", Content = "Pegang itemnya!", Duration = 3})
+      end
+   end,
+})
+
+Rayfield:LoadConfiguration()
+
 
 
 
