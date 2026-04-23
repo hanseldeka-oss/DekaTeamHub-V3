@@ -1,10 +1,10 @@
--- [[ DEKATEAMHUB V6.2 - FAST BEACH INTRO ]]
+-- [[ DEKATEAMHUB V6.3 - OCEAN BLUE 3D RGB ]]
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
 ScreenGui.Name = "DekaTeamHub_V6"
 
--- [[ 1. FAST BEACH INTRO SYSTEM (2 SECONDS) ]]
+-- [[ 1. FAST BEACH INTRO (2 SECONDS) ]]
 local IntroFrame = Instance.new("Frame")
 local IntroImage = Instance.new("ImageLabel")
 local WelcomeText = Instance.new("TextLabel")
@@ -40,18 +40,21 @@ local lbcr = Instance.new("UICorner")
 lbcr.Parent = LoadingBar
 
 Progress.Parent = LoadingBar
-Progress.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
+Progress.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
 Progress.Size = UDim2.new(0, 0, 1, 0)
 local pbcr = Instance.new("UICorner")
 pbcr.Parent = Progress
 
--- [[ 2. MAIN UI (VOID 3D) ]]
+-- [[ 2. OCEAN BLUE 3D MAIN UI ]]
 local MainFrame = Instance.new("Frame")
 local UIGradient = Instance.new("UIGradient")
+local Title = Instance.new("TextLabel")
+local UIStroke = Instance.new("UIStroke")
+local UICorner = Instance.new("UICorner")
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+MainFrame.BackgroundColor3 = Color3.fromRGB(10, 40, 70) -- Deep Ocean Base
 MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
 MainFrame.Size = UDim2.new(0, 280, 0, 320)
 MainFrame.Visible = false 
@@ -59,30 +62,22 @@ MainFrame.Active = true
 MainFrame.Draggable = true 
 
 UIGradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 0, 0)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(40, 0, 0))
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 100, 200)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 20, 50))
 }
+UIGradient.Rotation = 45
 UIGradient.Parent = MainFrame
 
--- [[ 3. QUICK LOGIC ]]
-task.spawn(function()
-    -- Loading Bar dipercepat (1.5 detik)
-    Progress:TweenSize(UDim2.new(1, 0, 1, 0), "Out", "Quad", 1.5)
-    task.wait(1.5)
-    
-    -- Fade Out Cepat (0.5 detik)
-    for i = 0, 1, 0.2 do
-        IntroFrame.BackgroundTransparency = i
-        IntroImage.ImageTransparency = i
-        WelcomeText.TextTransparency = i
-        task.wait(0.05)
-    end
-    
-    IntroFrame:Destroy()
-    MainFrame.Visible = true
-end)
+UICorner.CornerRadius = UDim.new(0, 15)
+UICorner.Parent = MainFrame
 
--- Tombol & Fitur GHOST tetap sama (Copy dari V6.1)
+UIStroke.Parent = MainFrame
+UIStroke.Thickness = 3
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+-- [[ RGB LOGIC FOR STROKE ]]
+task
+
 
 
     
