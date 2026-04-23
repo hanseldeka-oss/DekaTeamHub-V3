@@ -1,9 +1,22 @@
--- [[ DEKATEAMHUB V6.6 - FINAL STABLE FIX ]]
--- Theme: Ocean Blue 3D RGB | No Ghost | Toggle Shader
+-- [[ DEKATEAMHUB V6.7 - ANTI-EXECUTION FAILURE ]]
+-- Theme: Ocean Blue 3D RGB | Safe & Stable
+
+local ParentUI
+if game:GetService("RunService"):IsStudio() then
+    ParentUI = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+else
+    local success, err = pcall(function()
+        ParentUI = game:GetService("CoreGui")
+    end)
+    if not success then
+        ParentUI = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    end
+end
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game:GetService("CoreGui") -- Fix: Pake GetService biar lebih stabil
-ScreenGui.Name = "DekaTeamHub_V6_Final"
+ScreenGui.Parent = ParentUI
+ScreenGui.Name = "DekaTeamHub_V6_Ocean"
+ScreenGui.ResetOnSpawn = false
 
 -- [[ 1. FAST BEACH INTRO (2 SECONDS) ]]
 local IntroFrame = Instance.new("Frame")
@@ -17,7 +30,7 @@ IntroFrame.Name = "IntroFrame"
 IntroFrame.Parent = ScreenGui
 IntroFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 IntroFrame.Size = UDim2.new(1, 0, 1, 0)
-IntroFrame.ZIndex = 10
+IntroFrame.ZIndex = 100 -- Pastiin paling depan
 
 IntroImage.Parent = IntroFrame
 IntroImage.BackgroundTransparency = 1
@@ -57,13 +70,12 @@ Instance.new("UICorner", Progress)
 -- [[ 2. OCEAN BLUE 3D MAIN UI ]]
 local MainFrame = Instance.new("Frame")
 local UIGradient = Instance.new("UIGradient")
-local Title = Instance.new("TextLabel")
 local UIStroke = Instance.new("UIStroke")
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(0, 50, 120) -- OCEAN BLUE
-MainFrame.Position = UDim2.new(0.5, -140, 0.5, -130) -- Center Position
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 50, 120) 
+MainFrame.Position = UDim2.new(0.5, -140, 0.5, -130)
 MainFrame.Size = UDim2.new(0, 280, 0, 260)
 MainFrame.Visible = false 
 MainFrame.Active = true
@@ -81,14 +93,14 @@ UIStroke.Parent = MainFrame
 UIStroke.Thickness = 3
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
--- RGB Border
+-- RGB Logic
 task.spawn(function()
     while task.wait() do
         UIStroke.Color = Color3.fromHSV(tick() % 5 / 5, 1, 1)
     end
 end)
 
-Title.Parent = MainFrame
+local Title = Instance.new("TextLabel", MainFrame)
 Title.BackgroundTransparency = 1
 Title.Position = UDim2.new(0, 0, 0.05, 0)
 Title.Size = UDim2.new(1, 0, 0, 35)
@@ -99,8 +111,7 @@ Title.TextSize = 16
 
 -- [[ BUTTON CREATOR ]]
 local function CreateButton(text, pos)
-    local btn = Instance.new("TextButton")
-    btn.Parent = MainFrame
+    local btn = Instance.new("TextButton", MainFrame)
     btn.BackgroundColor3 = Color3.fromRGB(0, 70, 150)
     btn.Position = pos
     btn.Size = UDim2.new(0.85, 0, 0, 50)
@@ -115,8 +126,25 @@ local function CreateButton(text, pos)
 end
 
 local CrimsonBtn = CreateButton("CRIMSON VOID: OFF", UDim2.new(0.075, 0, 0.3, 0))
-local WinterBtn = CreateButton("NUCLEAR WINTER: OFF", UDim2.new(
-        
+local WinterBtn = CreateButton("NUCLEAR WINTER: OFF", UDim2.new(0.075, 0, 0.6, 0))
+
+-- [[ 3. SHADER LOGIC ]]
+local Lighting = game:GetService("Lighting")
+local cAct, wAct = false, false
+
+local function Clean()
+    for _, v in pairs(Lighting:GetChildren()) do
+        if v:IsA("PostEffect") then v:Destroy() end
+    end
+end
+
+CrimsonBtn.MouseButton1Click:Connect(function()
+    cAct = not cAct
+    wAct = false
+    Clean()
+    if cAct then
+        local b = Instance.new("BloomEffect",
+                
     
 
 
