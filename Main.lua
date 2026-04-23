@@ -1,7 +1,8 @@
--- [[ DEKATEAMHUB V5 - THE GHOST PROTOCOL (FINAL) ]]
+-- [[ DEKATEAMHUB V6 - UNIVERSAL VOID 3D EDITION ]]
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
+ScreenGui.Name = "DekaTeamHub_V6"
 
 -- [[ 1. INTRO SYSTEM ]]
 local IntroFrame = Instance.new("Frame")
@@ -17,7 +18,7 @@ IntroFrame.ZIndex = 10
 IntroImage.Parent = IntroFrame
 IntroImage.BackgroundTransparency = 1
 IntroImage.Size = UDim2.new(1, 0, 1, 0)
-IntroImage.Image = "rbxassetid://13512300407" 
+IntroImage.Image = "rbxassetid://13512300407" -- Tetap pake pantai buat intro (liburan sebelum bantai)
 IntroImage.ScaleType = Enum.ScaleType.Crop
 
 WelcomeText.Parent = IntroFrame
@@ -25,104 +26,81 @@ WelcomeText.BackgroundTransparency = 1
 WelcomeText.Position = UDim2.new(0.5, -200, 0.4, 0)
 WelcomeText.Size = UDim2.new(0, 400, 0, 100)
 WelcomeText.Font = Enum.Font.GothamBold
-WelcomeText.Text = "DEKATEAMHUB V5: GHOST MODE"
+WelcomeText.Text = "DEKATEAMHUB V6: UNIVERSAL VOID"
 WelcomeText.TextColor3 = Color3.fromRGB(255, 255, 255)
 WelcomeText.TextSize = 30
 WelcomeText.TextWrapped = true
 
--- [[ 2. MAIN UI (BLUE OCEAN 3D) ]]
+-- [[ 2. MAIN UI (VOID 3D DESIGN) ]]
 local MainFrame = Instance.new("Frame")
 local UIGradient = Instance.new("UIGradient")
-local GodModeBtn = Instance.new("TextButton")
-local ShaderBtn = Instance.new("TextButton")
+local Title = Instance.new("TextLabel")
+local UICorner = Instance.new("UICorner")
+local UIStroke = Instance.new("UIStroke")
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15) -- Void Base
+MainFrame.BackgroundTransparency = 0.1
 MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
-MainFrame.Size = UDim2.new(0, 260, 0, 240)
+MainFrame.Size = UDim2.new(0, 280, 0, 320)
 MainFrame.Visible = false 
 MainFrame.Active = true
 MainFrame.Draggable = true 
 
 UIGradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 20, 50)),
-    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 105, 148)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(127, 255, 212)) 
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 0, 0)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(40, 0, 0)) -- Dark Crimson Tint
 }
+UIGradient.Rotation = 45
 UIGradient.Parent = MainFrame
 
-local function StyleButton(btn, pos)
+UIStroke.Parent = MainFrame
+UIStroke.Thickness = 3
+UIStroke.Color = Color3.fromRGB(255, 0, 0) -- Neon Red Glow
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+UICorner.CornerRadius = UDim.new(0, 20)
+UICorner.Parent = MainFrame
+
+Title.Parent = MainFrame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 0, 0.05, 0)
+Title.Size = UDim2.new(1, 0, 0, 35)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "DEKATEAMHUB UNIVERSAL"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 16
+
+-- [[ BUTTON CREATOR ]]
+local function CreateButton(name, text, pos, color)
+    local btn = Instance.new("TextButton")
+    btn.Name = name
     btn.Parent = MainFrame
-    btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    btn.BackgroundTransparency = 0.8
+    btn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     btn.Position = pos
-    btn.Size = UDim2.new(0.8, 0, 0, 45)
+    btn.Size = UDim2.new(0.85, 0, 0, 45)
     btn.Font = Enum.Font.GothamSemibold
+    btn.Text = text
     btn.TextColor3 = Color3.fromRGB(255, 255, 255)
     btn.TextSize = 13
+    
     local bcr = Instance.new("UICorner")
+    bcr.CornerRadius = UDim.new(0, 10)
     bcr.Parent = btn
+    
+    local bst = Instance.new("UIStroke")
+    bst.Color = color
+    bst.Thickness = 1.5
+    bst.Parent = btn
+    
+    return btn
 end
 
-StyleButton(GodModeBtn, UDim2.new(0.1, 0, 0.3, 0))
-GodModeBtn.Text = "ACTIVATE GHOST IMMORTAL"
-
-StyleButton(ShaderBtn, UDim2.new(0.1, 0, 0.6, 0))
-ShaderBtn.Text = "ENABLE BEACH SHADER"
-
--- [[ 3. INTRO SEQUENCE ]]
-task.spawn(function()
-    task.wait(2) 
-    IntroFrame:Destroy()
-    MainFrame.Visible = true
-end)
-
--- [[ 4. V5 GHOST LOGIC (SERVER-SIDE BYPASS) ]]
-local godActive = false
-GodModeBtn.MouseButton1Click:Connect(function()
-    godActive = not godActive
-    GodModeBtn.Text = godActive and "GHOST: ACTIVE" or "ACTIVATE GHOST IMMORTAL"
+local GodBtn = CreateButton("GodBtn", "ACTIVATE GHOST IMMORTAL", UDim2.new(0.075, 0, 0.25, 0), Color3.fromRGB(0, 255, 0))
+local CrimsonBtn = CreateButton("CrimsonBtn", "SHADER: CRIMSON VOID", UDim2.new(0.075, 0, 0.45, 0), Color3.fromRGB(255, 0, 0))
+local WinterBtn = CreateButton("Winter
     
-    local player = game.Players.LocalPlayer
-    local char = player.Character or player.CharacterAdded:Wait()
-    
-    if godActive then
-        -- TEKNIK GHOST: Hapus Humanoid asli, bikin replika lokal
-        local oldHum = char:FindFirstChildOfClass("Humanoid")
-        local newHum = oldHum:Clone()
-        
-        newHum.Parent = char
-        oldHum:Destroy() -- Server bakal kehilangan "Target" buat dibunuh
-        
-        player.Character = char
-        newHum.MaxHealth = 100
-        newHum.Health = 100 -- Pake angka normal biar server gak curiga
-        
-        task.spawn(function()
-            while godActive do
-                pcall(function()
-                    if newHum.Health < 100 then
-                        newHum.Health = 100 -- Refill instan secara lokal
-                    end
-                    -- Anti-Fling + Jump Fix
-                    if newHum:GetState() ~= Enum.HumanoidStateType.Jumping then
-                        char.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
-                    end
-                end)
-                task.wait()
-            end
-        end)
-    end
-end)
-
--- Shader Logic
-ShaderBtn.MouseButton1Click:Connect(function()
-    local Light = game:GetService("Lighting")
-    local b = Instance.new("BloomEffect", Light) b.Intensity = 0.5
-    local c = Instance.new("ColorCorrectionEffect", Light) c.Saturation = 0.2
-    ShaderBtn.Text = "SHADER: ON"
-end)
 
 
 
