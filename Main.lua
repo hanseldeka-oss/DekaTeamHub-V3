@@ -1,10 +1,10 @@
--- [[ DEKATEAMHUB - OCEAN BLUE 3D + INTRO ]]
+-- [[ DEKATEAMHUB - OCEAN BLUE 3D + INTRO HOTFIX ]]
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- [[ 1. INTRO SYSTEM ]]
+-- [[ 1. INTRO SYSTEM (FIXED BACKGROUND) ]]
 local IntroFrame = Instance.new("Frame")
 local IntroImage = Instance.new("ImageLabel")
 local WelcomeText = Instance.new("TextLabel")
@@ -15,22 +15,28 @@ IntroFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 IntroFrame.Size = UDim2.new(1, 0, 1, 0)
 IntroFrame.ZIndex = 10
 
--- Background Pantai (Lo bisa ganti ImageId kalo punya yang lebih bagus)
+-- [HOTFIX]: ID Asset Background Pantai Baru & Aktif
 IntroImage.Parent = IntroFrame
 IntroImage.BackgroundTransparency = 1
 IntroImage.Size = UDim2.new(1, 0, 1, 0)
-IntroImage.Image = "rbxassetid://6015501306" -- ID Background Pantai Tropis
+IntroImage.Image = "rbxassetid://13512300407" -- New Working Tropical Beach ID
 IntroImage.ScaleType = Enum.ScaleType.Crop
 
 WelcomeText.Parent = IntroFrame
 WelcomeText.BackgroundTransparency = 1
-WelcomeText.Position = UDim2.new(0.5, -150, 0.4, 0)
-WelcomeText.Size = UDim2.new(0, 300, 0, 100)
+WelcomeText.Position = UDim2.new(0.5, -200, 0.4, 0)
+WelcomeText.Size = UDim2.new(0, 400, 0, 100)
 WelcomeText.Font = Enum.Font.GothamBold
 WelcomeText.Text = "SELAMAT DATANG DI DEKATEAMHUB"
 WelcomeText.TextColor3 = Color3.fromRGB(255, 255, 255)
-WelcomeText.TextSize = 30
+WelcomeText.TextSize = 35 -- Size Up!
 WelcomeText.TextWrapped = true
+
+-- Tambahan Efek Neon di Teks Intro
+local TextStroke = Instance.new("UIStroke")
+TextStroke.Parent = WelcomeText
+TextStroke.Thickness = 2
+TextStroke.Color = Color3.fromRGB(0, 255, 255) -- Cyan Glow
 
 -- [[ 2. MAIN UI (BLUE OCEAN 3D) ]]
 local MainFrame = Instance.new("Frame")
@@ -45,22 +51,21 @@ MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
 MainFrame.Size = UDim2.new(0, 260, 0, 190)
-MainFrame.Visible = false -- Sembunyi dulu sampe intro kelar
+MainFrame.Visible = false 
 MainFrame.Active = true
 MainFrame.Draggable = true 
 
--- Gradasi Blue Ocean (Deep Sea to Light Cyan)
 UIGradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 20, 50)), -- Deep Ocean
-    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 105, 148)), -- Blue Sea
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(127, 255, 212)) -- Aquamarine
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 20, 50)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 105, 148)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(127, 255, 212)) 
 }
 UIGradient.Rotation = 45
 UIGradient.Parent = MainFrame
 
 UIStroke.Parent = MainFrame
 UIStroke.Thickness = 2.5
-UIStroke.Color = Color3.fromRGB(0, 190, 255) -- Glow Biru Laut
+UIStroke.Color = Color3.fromRGB(0, 190, 255) 
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 UICorner.CornerRadius = UDim.new(0, 15)
@@ -92,7 +97,7 @@ ButtonCorner.Parent = GodModeBtn
 
 -- [[ 3. INTRO SEQUENCE ]]
 task.spawn(function()
-    task.wait(2) -- Durasi intro (2 detik)
+    task.wait(2) 
     for i = 0, 1, 0.1 do
         IntroFrame.BackgroundTransparency = i
         IntroImage.ImageTransparency = i
@@ -128,6 +133,7 @@ GodModeBtn.MouseButton1Click:Connect(function()
         game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, true)
     end
 end)
+
 
 
 
