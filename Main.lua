@@ -1,14 +1,15 @@
--- [[ DEKATEAMHUB V6.5 - TRUE OCEAN RGB ]]
--- Deleted Ghost Mode | Toggleable Shaders | Ocean Blue 3D
+-- [[ DEKATEAMHUB V6.6 - FINAL STABLE FIX ]]
+-- Theme: Ocean Blue 3D RGB | No Ghost | Toggle Shader
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.CoreGui
-ScreenGui.Name = "DekaTeamHub_V6_Ocean"
+ScreenGui.Parent = game:GetService("CoreGui") -- Fix: Pake GetService biar lebih stabil
+ScreenGui.Name = "DekaTeamHub_V6_Final"
 
 -- [[ 1. FAST BEACH INTRO (2 SECONDS) ]]
 local IntroFrame = Instance.new("Frame")
 local IntroImage = Instance.new("ImageLabel")
 local WelcomeText = Instance.new("TextLabel")
+local SubText = Instance.new("TextLabel")
 local LoadingBar = Instance.new("Frame")
 local Progress = Instance.new("Frame")
 
@@ -26,12 +27,21 @@ IntroImage.ScaleType = Enum.ScaleType.Crop
 
 WelcomeText.Parent = IntroFrame
 WelcomeText.BackgroundTransparency = 1
-WelcomeText.Position = UDim2.new(0.5, -200, 0.4, 0)
+WelcomeText.Position = UDim2.new(0.5, -200, 0.35, 0)
 WelcomeText.Size = UDim2.new(0, 400, 0, 50)
 WelcomeText.Font = Enum.Font.GothamBold
-WelcomeText.Text = "DEKATEAMHUB LOADING..."
+WelcomeText.Text = "Selamat Datang!"
 WelcomeText.TextColor3 = Color3.fromRGB(255, 255, 255)
-WelcomeText.TextSize = 25
+WelcomeText.TextSize = 30
+
+SubText.Parent = IntroFrame
+SubText.BackgroundTransparency = 1
+SubText.Position = UDim2.new(0.5, -200, 0.43, 0)
+SubText.Size = UDim2.new(0, 400, 0, 30)
+SubText.Font = Enum.Font.GothamSemibold
+SubText.Text = "Makasih udah pake script ini ☺️"
+SubText.TextColor3 = Color3.fromRGB(0, 200, 255)
+SubText.TextSize = 18
 
 LoadingBar.Parent = IntroFrame
 LoadingBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
@@ -47,7 +57,66 @@ Instance.new("UICorner", Progress)
 -- [[ 2. OCEAN BLUE 3D MAIN UI ]]
 local MainFrame = Instance.new("Frame")
 local UIGradient = Instance.new("UIGradient")
-local Title = Instance.new("
+local Title = Instance.new("TextLabel")
+local UIStroke = Instance.new("UIStroke")
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 50, 120) -- OCEAN BLUE
+MainFrame.Position = UDim2.new(0.5, -140, 0.5, -130) -- Center Position
+MainFrame.Size = UDim2.new(0, 280, 0, 260)
+MainFrame.Visible = false 
+MainFrame.Active = true
+MainFrame.Draggable = true 
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 15)
+
+UIGradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 120, 255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 30, 80))
+}
+UIGradient.Rotation = 45
+UIGradient.Parent = MainFrame
+
+UIStroke.Parent = MainFrame
+UIStroke.Thickness = 3
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+-- RGB Border
+task.spawn(function()
+    while task.wait() do
+        UIStroke.Color = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+    end
+end)
+
+Title.Parent = MainFrame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 0, 0.05, 0)
+Title.Size = UDim2.new(1, 0, 0, 35)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "DEKATEAMHUB OCEAN"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 16
+
+-- [[ BUTTON CREATOR ]]
+local function CreateButton(text, pos)
+    local btn = Instance.new("TextButton")
+    btn.Parent = MainFrame
+    btn.BackgroundColor3 = Color3.fromRGB(0, 70, 150)
+    btn.Position = pos
+    btn.Size = UDim2.new(0.85, 0, 0, 50)
+    btn.Font = Enum.Font.GothamSemibold
+    btn.Text = text
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.TextSize = 13
+    Instance.new("UICorner", btn)
+    local bst = Instance.new("UIStroke", btn)
+    bst.Color = Color3.fromRGB(0, 200, 255)
+    return btn
+end
+
+local CrimsonBtn = CreateButton("CRIMSON VOID: OFF", UDim2.new(0.075, 0, 0.3, 0))
+local WinterBtn = CreateButton("NUCLEAR WINTER: OFF", UDim2.new(
+        
     
 
 
