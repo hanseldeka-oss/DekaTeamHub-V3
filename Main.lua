@@ -1,10 +1,10 @@
--- [[ DEKATEAMHUB - OCEAN BLUE 3D + INTRO HOTFIX ]]
+-- [[ DEKATEAMHUB - OCEAN BLUE 3D + ANTI-FLING HOTFIX ]]
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- [[ 1. INTRO SYSTEM (FIXED BACKGROUND) ]]
+-- [[ 1. INTRO SYSTEM ]]
 local IntroFrame = Instance.new("Frame")
 local IntroImage = Instance.new("ImageLabel")
 local WelcomeText = Instance.new("TextLabel")
@@ -15,11 +15,10 @@ IntroFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 IntroFrame.Size = UDim2.new(1, 0, 1, 0)
 IntroFrame.ZIndex = 10
 
--- [HOTFIX]: ID Asset Background Pantai Baru & Aktif
 IntroImage.Parent = IntroFrame
 IntroImage.BackgroundTransparency = 1
 IntroImage.Size = UDim2.new(1, 0, 1, 0)
-IntroImage.Image = "rbxassetid://13512300407" -- New Working Tropical Beach ID
+IntroImage.Image = "rbxassetid://13512300407" 
 IntroImage.ScaleType = Enum.ScaleType.Crop
 
 WelcomeText.Parent = IntroFrame
@@ -29,14 +28,8 @@ WelcomeText.Size = UDim2.new(0, 400, 0, 100)
 WelcomeText.Font = Enum.Font.GothamBold
 WelcomeText.Text = "SELAMAT DATANG DI DEKATEAMHUB"
 WelcomeText.TextColor3 = Color3.fromRGB(255, 255, 255)
-WelcomeText.TextSize = 35 -- Size Up!
+WelcomeText.TextSize = 35
 WelcomeText.TextWrapped = true
-
--- Tambahan Efek Neon di Teks Intro
-local TextStroke = Instance.new("UIStroke")
-TextStroke.Parent = WelcomeText
-TextStroke.Thickness = 2
-TextStroke.Color = Color3.fromRGB(0, 255, 255) -- Cyan Glow
 
 -- [[ 2. MAIN UI (BLUE OCEAN 3D) ]]
 local MainFrame = Instance.new("Frame")
@@ -76,7 +69,7 @@ Title.BackgroundTransparency = 1
 Title.Position = UDim2.new(0, 0, 0.05, 0)
 Title.Size = UDim2.new(1, 0, 0, 35)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "DEKATEAMHUB - OCEAN BLUE"
+Title.Text = "DEKATEAMHUB - V3 FINAL"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 16
 
@@ -87,7 +80,7 @@ GodModeBtn.BackgroundTransparency = 0.8
 GodModeBtn.Position = UDim2.new(0.1, 0, 0.45, 0)
 GodModeBtn.Size = UDim2.new(0.8, 0, 0, 45)
 GodModeBtn.Font = Enum.Font.GothamSemibold
-GodModeBtn.Text = "ACTIVATE TRUE GOD"
+GodModeBtn.Text = "ACTIVATE ANTI-FLING GOD"
 GodModeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 GodModeBtn.TextSize = 14
 
@@ -108,18 +101,24 @@ task.spawn(function()
     MainFrame.Visible = true
 end)
 
--- [[ 4. TRUE GOD LOGIC ]]
+-- [[ 4. ULTRA GOD + ANTI-FLING LOGIC ]]
 local godModeActive = false
 GodModeBtn.MouseButton1Click:Connect(function()
     godModeActive = not godModeActive
     if godModeActive then
-        GodModeBtn.Text = "TRUE GOD: ON"
+        GodModeBtn.Text = "GOD MODE: STABLE"
         GodModeBtn.TextColor3 = Color3.fromRGB(0, 255, 255)
+        
         task.spawn(function()
             while godModeActive do
                 pcall(function()
                     local char = game.Players.LocalPlayer.Character
-                    if char and char:FindFirstChild("Humanoid") then
+                    if char and char:FindFirstChild("HumanoidRootPart") then
+                        -- Fix Ke Pental (Velocity Reset)
+                        char.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+                        char.HumanoidRootPart.RotVelocity = Vector3.new(0, 0, 0)
+                        
+                        -- True God Logic
                         char.Humanoid.Health = char.Humanoid.MaxHealth
                         char.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
                     end
@@ -128,11 +127,12 @@ GodModeBtn.MouseButton1Click:Connect(function()
             end
         end)
     else
-        GodModeBtn.Text = "ACTIVATE TRUE GOD"
+        GodModeBtn.Text = "ACTIVATE ANTI-FLING GOD"
         GodModeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
         game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, true)
     end
 end)
+
 
 
 
