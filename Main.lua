@@ -1,4 +1,4 @@
--- [[ DEKATEAMHUB - OCEAN BLUE 3D + ANTI-FLING HOTFIX ]]
+-- [[ DEKATEAMHUB - OCEAN BLUE 3D + REALISTIC BEACH SHADER ]]
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
@@ -36,6 +36,7 @@ local MainFrame = Instance.new("Frame")
 local UIGradient = Instance.new("UIGradient")
 local Title = Instance.new("TextLabel")
 local GodModeBtn = Instance.new("TextButton")
+local ShaderBtn = Instance.new("TextButton")
 local UICorner = Instance.new("UICorner")
 local UIStroke = Instance.new("UIStroke")
 
@@ -43,7 +44,7 @@ MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
-MainFrame.Size = UDim2.new(0, 260, 0, 190)
+MainFrame.Size = UDim2.new(0, 260, 0, 240) -- Tinggi ditambah buat tombol shader
 MainFrame.Visible = false 
 MainFrame.Active = true
 MainFrame.Draggable = true 
@@ -69,24 +70,30 @@ Title.BackgroundTransparency = 1
 Title.Position = UDim2.new(0, 0, 0.05, 0)
 Title.Size = UDim2.new(1, 0, 0, 35)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "DEKATEAMHUB - V3 FINAL"
+Title.Text = "DEKATEAMHUB - V3 SHADER"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 16
 
-GodModeBtn.Name = "GodModeBtn"
-GodModeBtn.Parent = MainFrame
-GodModeBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-GodModeBtn.BackgroundTransparency = 0.8
-GodModeBtn.Position = UDim2.new(0.1, 0, 0.45, 0)
-GodModeBtn.Size = UDim2.new(0.8, 0, 0, 45)
-GodModeBtn.Font = Enum.Font.GothamSemibold
-GodModeBtn.Text = "ACTIVATE ANTI-FLING GOD"
-GodModeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-GodModeBtn.TextSize = 14
+-- [[ BUTTONS ]]
+local function StyleButton(btn, pos)
+    btn.Parent = MainFrame
+    btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    btn.BackgroundTransparency = 0.8
+    btn.Position = pos
+    btn.Size = UDim2.new(0.8, 0, 0, 40)
+    btn.Font = Enum.Font.GothamSemibold
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.TextSize = 13
+    local bcr = Instance.new("UICorner")
+    bcr.CornerRadius = UDim.new(0, 10)
+    bcr.Parent = btn
+end
 
-local ButtonCorner = Instance.new("UICorner")
-ButtonCorner.CornerRadius = UDim.new(0, 10)
-ButtonCorner.Parent = GodModeBtn
+StyleButton(GodModeBtn, UDim2.new(0.1, 0, 0.3, 0))
+GodModeBtn.Text = "ACTIVATE GOD MODE"
+
+StyleButton(ShaderBtn, UDim2.new(0.1, 0, 0.55, 0))
+ShaderBtn.Text = "ENABLE BEACH SHADER"
 
 -- [[ 3. INTRO SEQUENCE ]]
 task.spawn(function()
@@ -101,37 +108,57 @@ task.spawn(function()
     MainFrame.Visible = true
 end)
 
--- [[ 4. ULTRA GOD + ANTI-FLING LOGIC ]]
-local godModeActive = false
+-- [[ 4. LOGIC ]]
+local godActive = false
 GodModeBtn.MouseButton1Click:Connect(function()
-    godModeActive = not godModeActive
-    if godModeActive then
-        GodModeBtn.Text = "GOD MODE: STABLE"
-        GodModeBtn.TextColor3 = Color3.fromRGB(0, 255, 255)
+    godActive = not godActive
+    GodModeBtn.Text = godActive and "GOD: ON (STABLE)" or "ACTIVATE GOD MODE"
+    GodModeBtn.TextColor3 = godActive and Color3.fromRGB(0, 255, 150) or Color3.fromRGB(255, 255, 255)
+    
+    task.spawn(function()
+        while godActive do
+            pcall(function()
+                local char = game.Players.LocalPlayer.Character
+                char.Humanoid.Health = char.Humanoid.MaxHealth
+                char.HumanoidRootPart.Velocity = Vector3.new(0,0,0)
+                char.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
+            end)
+            task.wait()
+        end
+    end)
+end)
+
+local shaderActive = false
+ShaderBtn.MouseButton1Click:Connect(function()
+    shaderActive = not shaderActive
+    ShaderBtn.Text = shaderActive and "SHADER: ON" or "ENABLE BEACH SHADER"
+    
+    local Light = game:GetService("Lighting")
+    if shaderActive then
+        -- Inject Realistic Beach Effects
+        local bloom = Instance.new("BloomEffect", Light)
+        bloom.Intensity = 1
+        bloom.Size = 24
         
-        task.spawn(function()
-            while godModeActive do
-                pcall(function()
-                    local char = game.Players.LocalPlayer.Character
-                    if char and char:FindFirstChild("HumanoidRootPart") then
-                        -- Fix Ke Pental (Velocity Reset)
-                        char.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
-                        char.HumanoidRootPart.RotVelocity = Vector3.new(0, 0, 0)
-                        
-                        -- True God Logic
-                        char.Humanoid.Health = char.Humanoid.MaxHealth
-                        char.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
-                    end
-                end)
-                task.wait()
-            end
-        end)
+        local sunRays = Instance.new("SunRaysEffect", Light)
+        sunRays.Intensity = 0.1
+        sunRays.Spread = 1
+        
+        local colorCorr = Instance.new("ColorCorrectionEffect", Light)
+        colorCorr.Brightness = 0.1
+        colorCorr.Contrast = 0.1
+        colorCorr.Saturation = 0.2
+        colorCorr.TintColor = Color3.fromRGB(255, 245, 230) -- Warm Sand Vibe
     else
-        GodModeBtn.Text = "ACTIVATE ANTI-FLING GOD"
-        GodModeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-        game.Players.LocalPlayer.Character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, true)
+        -- Clean Shaders
+        for _, v in pairs(Light:GetChildren()) do
+            if v:IsA("BloomEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") then
+                v:Destroy()
+            end
+        end
     end
 end)
+
 
 
 
