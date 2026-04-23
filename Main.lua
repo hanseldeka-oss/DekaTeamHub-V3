@@ -1,4 +1,4 @@
--- [[ DEKATEAMHUB - OCEAN BLUE 3D + REALISTIC BEACH SHADER ]]
+-- [[ DEKATEAMHUB V4 - IMMORTAL VOID EDITION ]]
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
@@ -26,12 +26,12 @@ WelcomeText.BackgroundTransparency = 1
 WelcomeText.Position = UDim2.new(0.5, -200, 0.4, 0)
 WelcomeText.Size = UDim2.new(0, 400, 0, 100)
 WelcomeText.Font = Enum.Font.GothamBold
-WelcomeText.Text = "SELAMAT DATANG DI DEKATEAMHUB"
+WelcomeText.Text = "DEKATEAMHUB V4: VOID IMMORTAL"
 WelcomeText.TextColor3 = Color3.fromRGB(255, 255, 255)
-WelcomeText.TextSize = 35
+WelcomeText.TextSize = 30
 WelcomeText.TextWrapped = true
 
--- [[ 2. MAIN UI (BLUE OCEAN 3D) ]]
+-- [[ 2. MAIN UI (OCEAN BLUE 3D) ]]
 local MainFrame = Instance.new("Frame")
 local UIGradient = Instance.new("UIGradient")
 local Title = Instance.new("TextLabel")
@@ -44,7 +44,7 @@ MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
-MainFrame.Size = UDim2.new(0, 260, 0, 240) -- Tinggi ditambah buat tombol shader
+MainFrame.Size = UDim2.new(0, 260, 0, 240)
 MainFrame.Visible = false 
 MainFrame.Active = true
 MainFrame.Draggable = true 
@@ -59,7 +59,7 @@ UIGradient.Parent = MainFrame
 
 UIStroke.Parent = MainFrame
 UIStroke.Thickness = 2.5
-UIStroke.Color = Color3.fromRGB(0, 190, 255) 
+UIStroke.Color = Color3.fromRGB(0, 190, 255)
 UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 UICorner.CornerRadius = UDim.new(0, 15)
@@ -70,11 +70,10 @@ Title.BackgroundTransparency = 1
 Title.Position = UDim2.new(0, 0, 0.05, 0)
 Title.Size = UDim2.new(1, 0, 0, 35)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "DEKATEAMHUB - V3 SHADER"
+Title.Text = "DEKATEAMHUB - V4 IMMORTAL"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 16
 
--- [[ BUTTONS ]]
 local function StyleButton(btn, pos)
     btn.Parent = MainFrame
     btn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -90,7 +89,7 @@ local function StyleButton(btn, pos)
 end
 
 StyleButton(GodModeBtn, UDim2.new(0.1, 0, 0.3, 0))
-GodModeBtn.Text = "ACTIVATE GOD MODE"
+GodModeBtn.Text = "ACTIVATE VOID GOD"
 
 StyleButton(ShaderBtn, UDim2.new(0.1, 0, 0.55, 0))
 ShaderBtn.Text = "ENABLE BEACH SHADER"
@@ -98,66 +97,61 @@ ShaderBtn.Text = "ENABLE BEACH SHADER"
 -- [[ 3. INTRO SEQUENCE ]]
 task.spawn(function()
     task.wait(2) 
-    for i = 0, 1, 0.1 do
-        IntroFrame.BackgroundTransparency = i
-        IntroImage.ImageTransparency = i
-        WelcomeText.TextTransparency = i
-        task.wait(0.05)
-    end
     IntroFrame:Destroy()
     MainFrame.Visible = true
 end)
 
--- [[ 4. LOGIC ]]
+-- [[ 4. THE ULTIMATE GOD LOGIC (ANTI-SERVER KILL) ]]
 local godActive = false
 GodModeBtn.MouseButton1Click:Connect(function()
     godActive = not godActive
-    GodModeBtn.Text = godActive and "GOD: ON (STABLE)" or "ACTIVATE GOD MODE"
+    GodModeBtn.Text = godActive and "VOID GOD: ON" or "ACTIVATE VOID GOD"
     GodModeBtn.TextColor3 = godActive and Color3.fromRGB(0, 255, 150) or Color3.fromRGB(255, 255, 255)
     
-    task.spawn(function()
-        while godActive do
-            pcall(function()
-                local char = game.Players.LocalPlayer.Character
-                char.Humanoid.Health = char.Humanoid.MaxHealth
-                char.HumanoidRootPart.Velocity = Vector3.new(0,0,0)
-                char.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
-            end)
-            task.wait()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    
+    if godActive and character then
+        -- Teknik Re-parenting (Umpetin nyawa asli)
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.Parent = nil -- Server bakal kehilangan target damage
+            task.wait(0.1)
+            humanoid.Parent = character -- Balikin tapi statusnya udah "Ghost"
         end
-    end)
+        
+        task.spawn(function()
+            while godActive do
+                pcall(function()
+                    if character.Humanoid.Health > 0 then
+                        character.Humanoid.MaxHealth = 9e9
+                        character.Humanoid.Health = 9e9
+                    end
+                    -- Anti-Fling & Anti-Void
+                    character.HumanoidRootPart.Velocity = Vector3.new(0,0,0)
+                    character.Humanoid:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
+                end)
+                task.wait()
+            end
+        end)
+    end
 end)
 
+-- Shader Logic tetap sama
 local shaderActive = false
 ShaderBtn.MouseButton1Click:Connect(function()
     shaderActive = not shaderActive
     ShaderBtn.Text = shaderActive and "SHADER: ON" or "ENABLE BEACH SHADER"
-    
     local Light = game:GetService("Lighting")
     if shaderActive then
-        -- Inject Realistic Beach Effects
-        local bloom = Instance.new("BloomEffect", Light)
-        bloom.Intensity = 1
-        bloom.Size = 24
-        
-        local sunRays = Instance.new("SunRaysEffect", Light)
-        sunRays.Intensity = 0.1
-        sunRays.Spread = 1
-        
-        local colorCorr = Instance.new("ColorCorrectionEffect", Light)
-        colorCorr.Brightness = 0.1
-        colorCorr.Contrast = 0.1
-        colorCorr.Saturation = 0.2
-        colorCorr.TintColor = Color3.fromRGB(255, 245, 230) -- Warm Sand Vibe
+        local b = Instance.new("BloomEffect", Light) b.Intensity = 1
+        local s = Instance.new("SunRaysEffect", Light) s.Intensity = 0.1
+        local c = Instance.new("ColorCorrectionEffect", Light) c.Saturation = 0.2
     else
-        -- Clean Shaders
-        for _, v in pairs(Light:GetChildren()) do
-            if v:IsA("BloomEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") then
-                v:Destroy()
-            end
-        end
+        for _, v in pairs(Light:GetChildren()) do if v:IsA("PostEffect") then v:Destroy() end end
     end
 end)
+
 
 
 
