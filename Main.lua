@@ -1,53 +1,103 @@
--- [[ DEKATEAMHUB BETA - GITHUB LOADER ]]
+-- [[ DEKATEAMHUB GALAXY 3D UI ]]
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UIGradient = Instance.new("UIGradient")
+local Title = Instance.new("TextLabel")
+local GodModeBtn = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+local UIStroke = Instance.new("UIStroke")
 
-local Window = Rayfield:CreateWindow({
-   Name = "DekaTeamHub Beta version",
-   LoadingTitle = "DekaTeamHub Beta",
-   LoadingSubtitle = "By DekaTeamhub Beta",
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = "DekaTeamHub",
-      FileName = "BrainrotConfig"
-   }
-})
+-- Setup UI
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-local Tab = Window:CreateTab("Auto Farm", 4483362458)
+-- Frame Utama (Galaxy Theme)
+MainFrame.Name = "GalaxyFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+MainFrame.Position = UDim2.new(0.35, 0, 0.3, 0)
+MainFrame.Size = UDim2.new(0, 250, 0, 180)
+MainFrame.Active = true
+MainFrame.Draggable = true -- Biar bisa lo geser, Boss
 
-local _G = {
-    AutoFarm = false,
-    -- URL RAW GITHUB LO (Ganti link di bawah ini dengan link raw script lo)
-    ScriptSource = "https://raw.githubusercontent.com/UsernameLo/DekaTeamHub/main/BrainrotEvolution.lua"
+-- Efek Gradasi Nebula (3D Vibe)
+UIGradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(15, 0, 45)), -- Dark Space
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(60, 20, 100)), -- Nebula Purple
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 50, 120)) -- Star Blue
 }
+UIGradient.Rotation = 45
+UIGradient.Parent = MainFrame
 
-Tab:CreateToggle({
-   Name = "Auto Farm (Level Match)",
-   CurrentValue = false,
-   Flag = "AutoFarmToggle",
-   Callback = function(Value)
-      _G.AutoFarm = Value
-      
-      -- Load script langsung dari Github
-      local function ExecuteFarm()
-          loadstring(game:HttpGet(_G.ScriptSource))()
-      end
+-- Border Glow (Efek 3D)
+UIStroke.Parent = MainFrame
+UIStroke.Thickness = 2
+UIStroke.Color = Color3.fromRGB(150, 100, 255)
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
-      task.spawn(function()
-          while _G.AutoFarm do
-              pcall(ExecuteFarm) -- Pcall biar gak crash kalau koneksi Github drop
-              task.wait(1) -- Delay check per second
-          end
-      end)
-   end,
-})
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = MainFrame
 
-Rayfield:Notify({
-   Title = "Github Link Active",
-   Content = "Source code sekarang narik langsung dari repository, Boss.",
-   Duration = 5,
-   Image = 4483362458,
-})
+-- Judul
+Title.Parent = MainFrame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 0, 0.05, 0)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "DEKATEAMHUB GALAXY"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 18
+
+-- Tombol God Mode
+GodModeBtn.Name = "GodModeBtn"
+GodModeBtn.Parent = MainFrame
+GodModeBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+GodModeBtn.BackgroundTransparency = 0.8
+GodModeBtn.Position = UDim2.new(0.1, 0, 0.4, 0)
+GodModeBtn.Size = UDim2.new(0.8, 0, 0, 40)
+GodModeBtn.Font = Enum.Font.GothamSemibold
+GodModeBtn.Text = "ACTIVATE GOD MODE"
+GodModeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+GodModeBtn.TextSize = 14
+
+local ButtonCorner = Instance.new("UICorner")
+ButtonCorner.CornerRadius = UDim.new(0, 8)
+ButtonCorner.Parent = GodModeBtn
+
+-- [[ LOGIC GOD MODE ]]
+local godModeActive = false
+
+GodModeBtn.MouseButton1Click:Connect(function()
+    godModeActive = not godModeActive
+    
+    if godModeActive then
+        GodModeBtn.Text = "GOD MODE: ON"
+        GodModeBtn.TextColor3 = Color3.fromRGB(0, 255, 150)
+        
+        -- Loop Abadi (Health Refill)
+        task.spawn(function()
+            while godModeActive do
+                pcall(function()
+                    local char = game.Players.LocalPlayer.Character
+                    if char and char:FindFirstChild("Humanoid") then
+                        char.Humanoid.MaxHealth = 9e9 -- Angka gila biar gak mati
+                        char.Humanoid.Health = 9e9
+                    end
+                end)
+                task.wait(0.1)
+            end
+        end)
+    else
+        GodModeBtn.Text = "ACTIVATE GOD MODE"
+        GodModeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        game.Players.LocalPlayer.Character.Humanoid.MaxHealth = 100
+        game.Players.LocalPlayer.Character.Humanoid.Health = 100
+    end
+end)
+
+print("Galaxy UI Loaded, Boss!")
+
 
 
 
