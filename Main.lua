@@ -1,5 +1,5 @@
--- [[ DEKATEAMHUB V7.0 - HIGH GRAPHICS EDITION ]]
--- Realistic Skybox | Ultra Shaders | Ocean Blue 3D
+-- [[ DEKATEAMHUB V7.5 - ULTIMATE ENVIRONMENT ]]
+-- Moon Crimson | Real Snowing Winter | Ocean Blue 3D
 
 local function GetParent()
     local success, coregui = pcall(function() return game:GetService("CoreGui") end)
@@ -8,7 +8,7 @@ local function GetParent()
 end
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "DekaTeamHub_V7_Ultra"
+ScreenGui.Name = "DekaTeamHub_V7_5"
 ScreenGui.Parent = GetParent()
 ScreenGui.ResetOnSpawn = false
 
@@ -26,7 +26,7 @@ Welcome.Text = "Selamat Datang!\nMakasih udah pake script ini ☺️"
 Welcome.TextColor3 = Color3.fromRGB(255, 255, 255)
 Welcome.TextSize = 24
 
--- [[ 2. MAIN UI (OCEAN BLUE RGB) ]]
+-- [[ 2. MAIN UI ]]
 local Main = Instance.new("Frame", ScreenGui)
 Main.BackgroundColor3 = Color3.fromRGB(0, 50, 120)
 Main.Position = UDim2.new(0.5, -140, 0.5, -130)
@@ -47,27 +47,48 @@ local Title = Instance.new("TextLabel", Main)
 Title.BackgroundTransparency = 1
 Title.Size = UDim2.new(1, 0, 0, 45)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "DEKATEAMHUB V7 ULTRA"
+Title.Text = "DEKATEAMHUB V7.5"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 18
 
--- [[ ADVANCED SHADER SYSTEM ]]
+-- [[ ADVANCED SHADER & WEATHER SYSTEM ]]
 local Lighting = game:GetService("Lighting")
+local PartContainer = nil
+
 local function Clean()
     for _, v in pairs(Lighting:GetChildren()) do
         if v:IsA("PostEffect") or v:IsA("Sky") then v:Destroy() end
     end
+    if PartContainer then PartContainer:Destroy() PartContainer = nil end
+    Lighting.ClockTime = 14
 end
 
-local function SetSky(id)
-    local s = Instance.new("Sky", Lighting)
-    s.SkyboxBk = "rbxassetid://"..id
-    s.SkyboxDn = "rbxassetid://"..id
-    s.SkyboxFt = "rbxassetid://"..id
-    s.SkyboxLf = "rbxassetid://"..id
-    s.SkyboxRt = "rbxassetid://"..id
-    s.SkyboxUp = "rbxassetid://"..id
-    s.SunAngularSize = 0
+local function CreateSnow()
+    PartContainer = Instance.new("Part", workspace)
+    PartContainer.Name = "DekaSnow"
+    PartContainer.Anchored = true
+    PartContainer.CanCollide = false
+    PartContainer.Transparency = 1
+    
+    local Attachment = Instance.new("Attachment", PartContainer)
+    local Emitter = Instance.new("ParticleEmitter", Attachment)
+    Emitter.Texture = "rbxassetid://242268300" -- Snow Texture
+    Emitter.Size = NumberSequence.new(0.5, 1)
+    Emitter.Lifetime = NumberRange.new(5, 10)
+    Emitter.Rate = 200
+    Emitter.Speed = NumberRange.new(10, 25)
+    Emitter.VelocityInheritance = 0.5
+    Emitter.EmissionDirection = Enum.NormalId.Bottom
+    
+    task.spawn(function()
+        while PartContainer do
+            local char = game.Players.LocalPlayer.Character
+            if char and char:FindFirstChild("HumanoidRootPart") then
+                PartContainer.Position = char.HumanoidRootPart.Position + Vector3.new(0, 50, 0)
+            end
+            task.wait()
+        end
+    end)
 end
 
 local function CreateBtn(txt, pos, func)
@@ -83,30 +104,43 @@ local function CreateBtn(txt, pos, func)
     b.MouseButton1Click:Connect(func)
 end
 
--- Crimson Mode (Dark Red Sky + Glow)
-CreateBtn("ULTRA CRIMSON", UDim2.new(0.075, 0, 0.25, 0), function()
+-- Crimson Mode (Blood Moon)
+CreateBtn("CRIMSON MOON", UDim2.new(0.075, 0, 0.25, 0), function()
     Clean()
-    SetSky(14531818241) -- Crimson Sky ID
+    Lighting.ClockTime = 0 -- Malam
+    local s = Instance.new("Sky", Lighting)
+    s.MoonTextureId = "rbxassetid://12323631" -- Moon Texture
+    s.SkyboxBk = "rbxassetid://14531818241"
+    s.SkyboxDn = "rbxassetid://14531818241"
+    s.SkyboxFt = "rbxassetid://14531818241"
+    s.SkyboxLf = "rbxassetid://14531818241"
+    s.SkyboxRt = "rbxassetid://14531818241"
+    s.SkyboxUp = "rbxassetid://14531818241"
+    
     local cc = Instance.new("ColorCorrectionEffect", Lighting)
     cc.TintColor = Color3.fromRGB(255, 100, 100)
-    cc.Contrast = 0.2
-    local b = Instance.new("BloomEffect", Lighting)
-    b.Intensity = 2
+    cc.Contrast = 0.3
+    Instance.new("BloomEffect", Lighting).Intensity = 1.5
 end)
 
--- Winter Mode (Real Snow Sky + Fog)
-CreateBtn("ULTRA WINTER", UDim2.new(0.075, 0, 0.5, 0), function()
+-- Winter Mode (Snow Fall)
+CreateBtn("WINTER SNOWFALL", UDim2.new(0.075, 0, 0.5, 0), function()
     Clean()
-    SetSky(131245648) -- Winter/Snow Sky ID
-    Lighting.FogEnd = 500
-    Lighting.FogColor = Color3.fromRGB(200, 230, 255)
-    local cc = Instance.new("ColorCorrectionEffect", Lighting)
-    cc.Saturation = -0.5
-    local bl = Instance.new("BlurEffect", Lighting) bl.Size = 2
+    local s = Instance.new("Sky", Lighting)
+    s.SkyboxBk = "rbxassetid://131245648"
+    s.SkyboxDn = "rbxassetid://131245648"
+    s.SkyboxFt = "rbxassetid://131245648"
+    s.SkyboxLf = "rbxassetid://131245648"
+    s.SkyboxRt = "rbxassetid://131245648"
+    s.SkyboxUp = "rbxassetid://131245648"
+    
+    Lighting.FogEnd = 400
+    Lighting.FogColor = Color3.fromRGB(255, 255, 255)
+    CreateSnow()
 end)
 
--- Reset Graphics
-CreateBtn("RESET GRAPHICS", UDim2.new(0.075, 0, 0.75, 0), function()
+-- Reset
+CreateBtn("RESET ALL", UDim2.new(0.075, 0, 0.75, 0), function()
     Clean()
     Lighting.FogEnd = 100000
 end)
@@ -117,6 +151,7 @@ Intro.Visible = true
 task.wait(2)
 Intro:Destroy()
 Main.Visible = true
+
 
 
     
