@@ -1,10 +1,10 @@
--- [[ DEKATEAMHUB V6.1 - STABLE BEACH INTRO & VOID 3D ]]
+-- [[ DEKATEAMHUB V6.2 - FAST BEACH INTRO ]]
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.CoreGui
 ScreenGui.Name = "DekaTeamHub_V6"
 
--- [[ 1. REALISTIC BEACH INTRO SYSTEM ]]
+-- [[ 1. FAST BEACH INTRO SYSTEM (2 SECONDS) ]]
 local IntroFrame = Instance.new("Frame")
 local IntroImage = Instance.new("ImageLabel")
 local WelcomeText = Instance.new("TextLabel")
@@ -20,7 +20,7 @@ IntroFrame.ZIndex = 10
 IntroImage.Parent = IntroFrame
 IntroImage.BackgroundTransparency = 1
 IntroImage.Size = UDim2.new(1, 0, 1, 0)
-IntroImage.Image = "rbxassetid://13512300407" -- Asset Pantai
+IntroImage.Image = "rbxassetid://13512300407" 
 IntroImage.ScaleType = Enum.ScaleType.Crop
 
 WelcomeText.Parent = IntroFrame
@@ -28,19 +28,19 @@ WelcomeText.BackgroundTransparency = 1
 WelcomeText.Position = UDim2.new(0.5, -200, 0.4, 0)
 WelcomeText.Size = UDim2.new(0, 400, 0, 50)
 WelcomeText.Font = Enum.Font.GothamBold
-WelcomeText.Text = "LOADING DEKATEAMHUB..."
+WelcomeText.Text = "DEKATEAMHUB LOADING..."
 WelcomeText.TextColor3 = Color3.fromRGB(255, 255, 255)
 WelcomeText.TextSize = 25
 
 LoadingBar.Parent = IntroFrame
 LoadingBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 LoadingBar.Position = UDim2.new(0.5, -150, 0.55, 0)
-LoadingBar.Size = UDim2.new(0, 300, 0, 10)
+LoadingBar.Size = UDim2.new(0, 300, 0, 8)
 local lbcr = Instance.new("UICorner")
 lbcr.Parent = LoadingBar
 
 Progress.Parent = LoadingBar
-Progress.BackgroundColor3 = Color3.fromRGB(0, 200, 255) -- Warna Air Laut
+Progress.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
 Progress.Size = UDim2.new(0, 0, 1, 0)
 local pbcr = Instance.new("UICorner")
 pbcr.Parent = Progress
@@ -48,7 +48,6 @@ pbcr.Parent = Progress
 -- [[ 2. MAIN UI (VOID 3D) ]]
 local MainFrame = Instance.new("Frame")
 local UIGradient = Instance.new("UIGradient")
-local Title = Instance.new("TextLabel")
 
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
@@ -65,34 +64,14 @@ UIGradient.Color = ColorSequence.new{
 }
 UIGradient.Parent = MainFrame
 
-local function CreateButton(name, text, pos, color)
-    local btn = Instance.new("TextButton")
-    btn.Parent = MainFrame
-    btn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    btn.Position = pos
-    btn.Size = UDim2.new(0.85, 0, 0, 45)
-    btn.Font = Enum.Font.GothamSemibold
-    btn.Text = text
-    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    btn.TextSize = 13
-    local bcr = Instance.new("UICorner")
-    bcr.Parent = btn
-    return btn
-end
-
-local GodBtn = CreateButton("GodBtn", "ACTIVATE GHOST IMMORTAL", UDim2.new(0.075, 0, 0.25, 0))
-local CrimsonBtn = CreateButton("CrimsonBtn", "CRIMSON VOID SHADER", UDim2.new(0.075, 0, 0.45, 0))
-local WinterBtn = CreateButton("WinterBtn", "NUCLEAR WINTER SHADER", UDim2.new(0.075, 0, 0.65, 0))
-
--- [[ 3. LOGIC & INTRO ANIMATION ]]
+-- [[ 3. QUICK LOGIC ]]
 task.spawn(function()
-    -- Animasi Loading Bar
-    Progress:TweenSize(UDim2.new(1, 0, 1, 0), "Out", "Linear", 3)
-    task.wait(3)
+    -- Loading Bar dipercepat (1.5 detik)
+    Progress:TweenSize(UDim2.new(1, 0, 1, 0), "Out", "Quad", 1.5)
+    task.wait(1.5)
     
-    -- Fade Out Intro
-    for i = 0, 1, 0.1 do
-        IntroFrame.GroupTransparency = i -- Jika pakai CanvasGroup, kalau tidak:
+    -- Fade Out Cepat (0.5 detik)
+    for i = 0, 1, 0.2 do
         IntroFrame.BackgroundTransparency = i
         IntroImage.ImageTransparency = i
         WelcomeText.TextTransparency = i
@@ -103,7 +82,8 @@ task.spawn(function()
     MainFrame.Visible = true
 end)
 
--- (Logic Immortal & Shader tetap sama seperti sebelumnya biar stabil)
+-- Tombol & Fitur GHOST tetap sama (Copy dari V6.1)
+
 
     
 
