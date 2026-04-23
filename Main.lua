@@ -1,69 +1,54 @@
+-- [[ DEKATEAMHUB BETA - GITHUB LOADER ]]
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "Delta Executor | BRAINROT SYNC V6",
-   LoadingTitle = "DekaTeamHub - Anti-Rotation",
-   LoadingSubtitle = "By DekaTeamhub",
-   ConfigurationPath = "BrainrotConfig",
-   KeySystem = false
+   Name = "DekaTeamHub Beta version",
+   LoadingTitle = "DekaTeamHub Beta",
+   LoadingSubtitle = "By DekaTeamhub Beta",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "DekaTeamHub",
+      FileName = "BrainrotConfig"
+   }
 })
 
-local MainTab = Window:CreateTab("Inventory Dupe", 4483362458)
-local DupeSection = MainTab:CreateSection("Brainrot Dupe 1 to 2 (FIXED)")
+local Tab = Window:CreateTab("Auto Farm", 4483362458)
 
-MainTab:CreateButton({
-   Name = "Execute Linear Brainrot (No Spin)",
-   Callback = function()
-      local player = game.Players.LocalPlayer
-      local tool = player.Character:FindFirstChildOfClass("Tool") or player.Backpack:FindFirstChildOfClass("Tool")
+local _G = {
+    AutoFarm = false,
+    -- URL RAW GITHUB LO (Ganti link di bawah ini dengan link raw script lo)
+    ScriptSource = "https://raw.githubusercontent.com/UsernameLo/DekaTeamHub/main/BrainrotEvolution.lua"
+}
+
+Tab:CreateToggle({
+   Name = "Auto Farm (Level Match)",
+   CurrentValue = false,
+   Flag = "AutoFarmToggle",
+   Callback = function(Value)
+      _G.AutoFarm = Value
       
-      if tool then
-          -- Dupe ke Inventory
-          local clonedTool = tool:Clone()
-          clonedTool.Name = tool.Name .. " [DUPED]"
-          clonedTool.Parent = player.Backpack
-          
-          -- Logic Animasi Meliuk Tanpa Muter
-          local function ApplyLinearBrainrot(item)
-              local handle = item:FindFirstChild("Handle") or item:FindFirstChildWhichIsA("BasePart")
-              if not handle then return end
-              
-              local originalGrip = item.Grip
-              spawn(function()
-                  local t = 0
-                  while item and item.Parent do
-                      if item.Parent == player.Character then
-                          t = t + 0.2 -- Speed tinggi buat vibe brainrot
-                          
-                          -- PURE POSITION SHIFT (Gak ada rotasi/Angles sama sekali)
-                          local offsetX = math.sin(t * 12) * 1.5 -- Meliuk Kiri-Kanan
-                          local offsetY = math.cos(t * 15) * 1.8 -- Bouncing Atas-Bawah
-                          local offsetZ = math.sin(t * 10) * 0.8 -- Maju-Mundur dikit
-                          
-                          -- item.Grip cuma diubah posisinya (CFrame.new), bukan rotasinya
-                          item.Grip = originalGrip * CFrame.new(offsetX, offsetY, offsetZ)
-                      end
-                      task.wait(0.01)
-                  end
-              end)
-          end
-
-          ApplyLinearBrainrot(tool)
-          ApplyLinearBrainrot(clonedTool)
-
-          Rayfield:Notify({
-             Title = "Fixed Logic",
-             Content = "Gerakan sekarang linear meliuk tanpa muter-muter!",
-             Duration = 3,
-             Image = 4483362458,
-          })
-      else
-          Rayfield:Notify({Title = "Error", Content = "Pegang itemnya!", Duration = 3})
+      -- Load script langsung dari Github
+      local function ExecuteFarm()
+          loadstring(game:HttpGet(_G.ScriptSource))()
       end
+
+      task.spawn(function()
+          while _G.AutoFarm do
+              pcall(ExecuteFarm) -- Pcall biar gak crash kalau koneksi Github drop
+              task.wait(1) -- Delay check per second
+          end
+      end)
    end,
 })
 
-Rayfield:LoadConfiguration()
+Rayfield:Notify({
+   Title = "Github Link Active",
+   Content = "Source code sekarang narik langsung dari repository, Boss.",
+   Duration = 5,
+   Image = 4483362458,
+})
+
 
 
 
