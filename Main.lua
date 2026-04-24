@@ -1,8 +1,8 @@
--- [[ DEKATEAMHUB V10 - FINAL GOD MODE ]]
--- Moon Crimson | Real Snowstorm | Fix Reset All
+-- [[ DEKATEAMHUB V11 - ATMOSPHERE FIX ]]
+-- REAL Moon Crimson | REAL Snowfall | Auto-Clean Game Lighting
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "DekaTeamHub_V10"
+ScreenGui.Name = "DekaTeamHub_V11"
 ScreenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ResetOnSpawn = false
 ScreenGui.DisplayOrder = 999
@@ -40,7 +40,9 @@ end)
 local function Clean()
     local Light = game:GetService("Lighting")
     for _, v in pairs(Light:GetChildren()) do
-        if v:IsA("Sky") or v:IsA("PostEffect") or v:IsA("BlurEffect") or v:IsA("BloomEffect") then v:Destroy() end
+        if v:IsA("Sky") or v:IsA("PostEffect") or v:IsA("Atmosphere") or v:IsA("Clouds") then 
+            v:Destroy() 
+        end
     end
     if workspace:FindFirstChild("DekaWeather") then workspace.DekaWeather:Destroy() end
     Light.ClockTime = 14
@@ -60,11 +62,11 @@ local function CreateBtn(txt, pos, func)
     b.MouseButton1Click:Connect(func)
 end
 
--- Crimson Mode (Blood Moon + Red Sky)
+-- Crimson Mode (FORCED SKY & MOON)
 CreateBtn("ULTRA CRIMSON MOON", UDim2.new(0.075, 0, 0.2, 0), function()
     Clean()
     local Light = game:GetService("Lighting")
-    Light.ClockTime = 0
+    Light.ClockTime = 0 -- Tengah Malem
     
     local Sky = Instance.new("Sky", Light)
     Sky.SkyboxBk = "rbxassetid://14531818241"
@@ -73,15 +75,16 @@ CreateBtn("ULTRA CRIMSON MOON", UDim2.new(0.075, 0, 0.2, 0), function()
     Sky.SkyboxLf = "rbxassetid://14531818241"
     Sky.SkyboxRt = "rbxassetid://14531818241"
     Sky.SkyboxUp = "rbxassetid://14531818241"
-    Sky.MoonTextureId = "rbxassetid://12323631" -- Bulan Purnama
-    Sky.MoonAngularSize = 30
+    Sky.MoonTextureId = "rbxassetid://12323631" -- ID Bulan Purnama
+    Sky.MoonAngularSize = 35 -- Gedein biar mantap
     
     local CC = Instance.new("ColorCorrectionEffect", Light)
     CC.TintColor = Color3.fromRGB(255, 50, 50)
-    CC.Contrast = 0.4
+    CC.Contrast = 0.5
+    CC.Saturation = 0.2
 end)
 
--- Winter Mode (Real Snowfall + Winter Sky)
+-- Winter Mode (FORCED SNOW & SKY)
 CreateBtn("REAL WINTER SNOW", UDim2.new(0.075, 0, 0.45, 0), function()
     Clean()
     local Light = game:GetService("Lighting")
@@ -92,8 +95,9 @@ CreateBtn("REAL WINTER SNOW", UDim2.new(0.075, 0, 0.45, 0), function()
     Sky.SkyboxLf = "rbxassetid://131245648"
     Sky.SkyboxRt = "rbxassetid://131245648"
     Sky.SkyboxUp = "rbxassetid://131245648"
+    
     Light.FogEnd = 300
-    Light.FogColor = Color3.fromRGB(200, 230, 255)
+    Light.FogColor = Color3.fromRGB(255, 255, 255)
 
     local Part = Instance.new("Part", workspace)
     Part.Name = "DekaWeather"
@@ -104,33 +108,34 @@ CreateBtn("REAL WINTER SNOW", UDim2.new(0.075, 0, 0.45, 0), function()
     local Att = Instance.new("Attachment", Part)
     local Emit = Instance.new("ParticleEmitter", Att)
     Emit.Texture = "rbxassetid://242268300"
-    Emit.Rate = 2500
-    Emit.Speed = NumberRange.new(30, 70)
-    Emit.Lifetime = NumberRange.new(5, 10)
-    Emit.Size = NumberSequence.new(0.5, 1.2)
+    Emit.Rate = 3000 -- Gue hajar lebih deres!
+    Emit.Speed = NumberRange.new(40, 80)
+    Emit.Lifetime = NumberRange.new(4, 8)
+    Emit.Size = NumberSequence.new(0.7, 1.5)
+    Emit.Acceleration = Vector3.new(0, -10, 0) -- Biar jatuh ke bawah
     
     task.spawn(function()
-        while Part do
+        while Part and Part.Parent do
             local Char = game.Players.LocalPlayer.Character
             if Char and Char:FindFirstChild("HumanoidRootPart") then
-                Part.Position = Char.HumanoidRootPart.Position + Vector3.new(0, 80, 0)
+                Part.Position = Char.HumanoidRootPart.Position + Vector3.new(0, 100, 0)
             end
             task.wait()
         end
     end)
 end)
 
--- RESET GRAPHICS FIX
 CreateBtn("RESET ALL GRAPHICS", UDim2.new(0.075, 0, 0.7, 0), function()
     Clean()
 end)
 
--- [[ START SEQUENCE ]]
+-- [[ START ]]
 task.wait(0.5)
 Intro.Visible = true
 task.wait(2)
 Intro:Destroy()
 Main.Visible = true
+
 
 
 
